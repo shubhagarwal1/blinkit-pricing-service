@@ -27,4 +27,50 @@ public class Taxation {
     LocalDate createdDate;
 
     LocalDate updatedDate;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    // Getter and Setter for 'categoryId'
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    // Getter and Setter for 'taxPercentage'
+    public Integer getTaxPercentage() {
+        return TaxPercentage;
+    }
+
+    public void setTaxPercentage(Integer taxPercentage) {
+        this.TaxPercentage = taxPercentage;
+    }
+
+    // Getter and Setter for 'createdDate'
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDate createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    // Getter and Setter for 'updatedDate'
+    public LocalDate getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(LocalDate updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
 }
