@@ -39,4 +39,22 @@ public class ProductPricing {
 
     LocalDate updatedDate;
 
+
+    @Override
+    public String toString() {
+        return "ProductPricing{" +
+            "productPriceId=" + productPriceId +
+            ", basePrice=" + basePrice +
+            ", categoryId=" + categoryId +
+            ", createdDate=" + createdDate +
+            ", finalPrice=" + finalPrice +
+            ", priceRuleId=" + priceRuleId +
+            ", productId=" + productId +
+            ", slashPrice=" + slashPrice +
+            ", taxAmount=" + taxAmount +
+            ", taxId=" + taxId +
+            ", updatedDate=" + updatedDate +
+            '}';
+    }
+
 }
