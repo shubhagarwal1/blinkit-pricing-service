@@ -3,7 +3,7 @@ package com.blinkitclone.blinkitclone.service;
 import com.blinkitclone.blinkitclone.Enums.CouponStatus;
 import com.blinkitclone.blinkitclone.Exception.AlreadyDeletedException;
 import com.blinkitclone.blinkitclone.Exception.CouponExpiredException;
-import com.blinkitclone.blinkitclone.Exception.CouponNotFoundException;
+import com.blinkitclone.blinkitclone.Exception.NotFoundException;
 import com.blinkitclone.blinkitclone.dto.requestDto.CouponsRequestDto;
 import com.blinkitclone.blinkitclone.dto.responseDto.CouponsResponseDto;
 import com.blinkitclone.blinkitclone.entity.Coupons;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +27,7 @@ public class CouponsService {
 
     public CouponsResponseDto createCoupons(CouponsRequestDto couponsRequestDto) {
         Coupons coupons = ConvertCouponsRequestDtoToCoupon(couponsRequestDto);
-        coupons.setDeletionStatus(Deleted);
+        coupons.setDeletionStatus(Active);
         couponsRepo.save(coupons);
         return ConvertCouponToCouponsResponseDto(coupons);
     }
@@ -52,9 +51,9 @@ public class CouponsService {
                 .build();
     }
 
-    public CouponsResponseDto getCouponsByCouponCode(String couponCode)throws CouponNotFoundException, CouponExpiredException {
+    public CouponsResponseDto getCouponsByCouponCode(String couponCode)throws NotFoundException, CouponExpiredException {
         Optional<Coupons> coupons = couponsRepo.findByCouponCode(couponCode);
-        if(coupons.isEmpty()) throw new CouponNotFoundException("Coupon with coupon code : " + couponCode + " does not exist");
+        if(coupons.isEmpty()) throw new NotFoundException("Coupon with coupon code : " + couponCode + " does not exist");
         if(coupons.get().getStatus() == CouponStatus.Expired) throw new CouponExpiredException("Coupon with coupon code : " + couponCode + "has already been expired");
         return ConvertCouponToCouponsResponseDto(coupons.get());
     }
@@ -73,9 +72,9 @@ public class CouponsService {
                 .build();
     }
 
-    public CouponsResponseDto updateCouponsById(Integer id, CouponsRequestDto couponsRequestDto) throws CouponNotFoundException{
+    public CouponsResponseDto updateCouponsById(Integer id, CouponsRequestDto couponsRequestDto) throws NotFoundException {
         Optional<Coupons> coupons = couponsRepo.findById(id);
-        if(coupons.isEmpty()) throw new CouponNotFoundException("Coupon with coupon id : " + id + " does not exist");
+        if(coupons.isEmpty()) throw new NotFoundException("Coupon with coupon id : " + id + " does not exist");
         if(couponsRequestDto.getCouponCode() != null) coupons.get().setCouponCode(couponsRequestDto.getCouponCode());
         if(couponsRequestDto.getDescription() != null) coupons.get().setDescription(couponsRequestDto.getDescription());
         if(couponsRequestDto.getMaxUsagePerUser() != null) coupons.get().setMaxUsagePerUser(couponsRequestDto.getMaxUsagePerUser());
@@ -95,18 +94,18 @@ public class CouponsService {
         return new CouponsResponseDto();
     }
 
-    public String deleteCouponsById(Integer id) throws AlreadyDeletedException, CouponNotFoundException {
+    public String deleteCouponsById(Integer id) throws AlreadyDeletedException, NotFoundException {
         Optional<Coupons> coupons = couponsRepo.findById(id);
-        if(coupons.isEmpty()) throw new CouponNotFoundException("Coupon with coupon id : " + id + " does not exist");
+        if(coupons.isEmpty()) throw new NotFoundException("Coupon with coupon id : " + id + " does not exist");
         if(coupons.get().getDeletionStatus() == Deleted) throw new AlreadyDeletedException("Coupon with coupon id : " + id + " has already been deleted");
         coupons.get().setDeletionStatus(Deleted);
         couponsRepo.save(coupons.get());
         return "successfully deleted coupon with coupon id : " + id;
     }
 
-    public CouponsResponseDto getCouponsById(Integer id) throws CouponExpiredException, CouponNotFoundException {
+    public CouponsResponseDto getCouponsById(Integer id) throws CouponExpiredException, NotFoundException {
         Optional<Coupons> coupons = couponsRepo.findById(id);
-        if(coupons.isEmpty()) throw new CouponNotFoundException("Coupon with coupon code : " + id + " does not exist");
+        if(coupons.isEmpty()) throw new NotFoundException("Coupon with coupon code : " + id + " does not exist");
         if(coupons.get().getStatus() == CouponStatus.Expired) throw new CouponExpiredException("Coupon with coupon code : " + id + "has already been expired");
         return ConvertCouponToCouponsResponseDto(coupons.get());
     }

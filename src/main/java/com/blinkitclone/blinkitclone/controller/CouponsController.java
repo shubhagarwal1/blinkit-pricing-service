@@ -2,7 +2,7 @@ package com.blinkitclone.blinkitclone.controller;
 
 import com.blinkitclone.blinkitclone.Exception.AlreadyDeletedException;
 import com.blinkitclone.blinkitclone.Exception.CouponExpiredException;
-import com.blinkitclone.blinkitclone.Exception.CouponNotFoundException;
+import com.blinkitclone.blinkitclone.Exception.NotFoundException;
 import com.blinkitclone.blinkitclone.dto.requestDto.CouponsRequestDto;
 import com.blinkitclone.blinkitclone.dto.responseDto.CouponsResponseDto;
 import com.blinkitclone.blinkitclone.service.CouponsService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/coupons")
+@RequestMapping("/pricing/api/v1/coupons")
 public class CouponsController {
     @Autowired
     private CouponsService couponsService;
@@ -27,7 +27,7 @@ public class CouponsController {
         try{
             return couponsService.getCouponsByCouponCode(couponCode);
         }
-        catch (CouponExpiredException | CouponNotFoundException e){
+        catch (CouponExpiredException | NotFoundException e){
             return CouponsResponseDto.builder().error(e.getMessage()).build();
         }
     }
@@ -37,7 +37,7 @@ public class CouponsController {
         try{
             return couponsService.getCouponsById(id);
         }
-        catch (CouponExpiredException | CouponNotFoundException e){
+        catch (CouponExpiredException | NotFoundException e){
             return CouponsResponseDto.builder().error(e.getMessage()).build();
         }
     }
@@ -57,7 +57,7 @@ public class CouponsController {
     public CouponsResponseDto updateCouponsById(@RequestParam Integer id, @RequestBody CouponsRequestDto couponsRequestDto){
         try{
             return couponsService.updateCouponsById(id, couponsRequestDto);
-        } catch (CouponNotFoundException e) {
+        } catch (NotFoundException e) {
             return CouponsResponseDto.builder().error(e.getMessage()).build();
         }
     }
@@ -66,7 +66,7 @@ public class CouponsController {
     public String deleteCouponsById(@RequestParam Integer id){
         try{
             return couponsService.deleteCouponsById(id);
-        } catch (AlreadyDeletedException | CouponNotFoundException e) {
+        } catch (AlreadyDeletedException | NotFoundException e) {
             return e.getMessage();
         }
     }
