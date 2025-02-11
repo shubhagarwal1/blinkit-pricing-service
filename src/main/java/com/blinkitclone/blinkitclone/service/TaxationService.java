@@ -23,21 +23,11 @@ public class TaxationService {
                 throw new IllegalArgumentException("Category ID and Tax Percentage must be provided");
             }
 
-            Taxation taxation = new Taxation();
-            taxation.setCategoryId(taxationRequestDto.getCategoryId());
-            taxation.setTaxPercentage(taxationRequestDto.getTaxPercentage());
-            taxation.setCreatedDate(LocalDate.now());
-            taxation.setUpdatedDate(LocalDate.now());
+            Taxation taxation = createTaxationEntity(taxationRequestDto);
 
             Taxation savedTaxation = taxationRepo.save(taxation);
 
-            return new TaxationResponseDto(
-                savedTaxation.getId(),
-                savedTaxation.getCategoryId(),
-                savedTaxation.getTaxPercentage(),
-                savedTaxation.getCreatedDate(),
-                savedTaxation.getUpdatedDate()
-            );
+            return createTaxationResponseDto(savedTaxation);
 
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while creating taxation: " + e.getMessage());
@@ -48,23 +38,9 @@ public class TaxationService {
         try {
             Optional<Taxation> taxationOptional = taxationRepo.findById(id);
 
-            if (taxationOptional.isEmpty()) {
-                return new TaxationResponseDto("Error", "Taxation record not found for ID: " + id);
-            }
-
-            Taxation taxation = taxationOptional.get();
-
-            TaxationResponseDto response = new TaxationResponseDto(
-                taxation.getId(),
-                taxation.getCategoryId(),
-                taxation.getTaxPercentage(),
-                taxation.getCreatedDate(),
-                taxation.getUpdatedDate()
-            );
-            response.setStatus("Success");
-            response.setMessage("Taxation record fetched successfully.");
-
-            return response;
+            return taxationOptional
+                .map(taxation -> createTaxationResponseDto(taxation, "Success", "Taxation record fetched successfully."))
+                .orElseGet(() -> new TaxationResponseDto("Error", "Taxation record not found for ID: " + id));
         } catch (Exception e) {
             return new TaxationResponseDto("Error", "An unexpected error occurred while fetching taxation: " + e.getMessage());
         }
@@ -89,18 +65,8 @@ public class TaxationService {
 
             Taxation updatedTaxation = taxationRepo.save(taxation);
 
-            return new TaxationResponseDto(
-                updatedTaxation.getId(),
-                updatedTaxation.getCategoryId(),
-                updatedTaxation.getTaxPercentage(),
-                updatedTaxation.getCreatedDate(),
-                updatedTaxation.getUpdatedDate()
-            );
+            return createTaxationResponseDto(updatedTaxation);
 
-        } catch (TaxationNotFoundException e) {
-            throw e;
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid input: " + e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException("Error occurred while updating taxation: " + e.getMessage());
         }
@@ -115,5 +81,31 @@ public class TaxationService {
         } else {
             throw new TaxationNotFoundException("Taxation record not found for ID: " + id);
         }
+    }
+
+    private TaxationResponseDto createTaxationResponseDto(Taxation taxation) {
+        return createTaxationResponseDto(taxation, "Success", "Taxation record processed successfully.");
+    }
+
+    private TaxationResponseDto createTaxationResponseDto(Taxation taxation, String status, String message) {
+        TaxationResponseDto response = new TaxationResponseDto(
+            taxation.getId(),
+            taxation.getCategoryId(),
+            taxation.getTaxPercentage(),
+            taxation.getCreatedDate(),
+            taxation.getUpdatedDate()
+        );
+        response.setStatus(status);
+        response.setMessage(message);
+        return response;
+    }
+
+    private Taxation createTaxationEntity(TaxationRequestDto taxationRequestDto) {
+        Taxation taxation = new Taxation();
+        taxation.setCategoryId(taxationRequestDto.getCategoryId());
+        taxation.setTaxPercentage(taxationRequestDto.getTaxPercentage());
+        taxation.setCreatedDate(LocalDate.now());
+        taxation.setUpdatedDate(LocalDate.now());
+        return taxation;
     }
 }

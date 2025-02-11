@@ -18,15 +18,15 @@ public class Taxation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+   private Integer id;
 
-    Integer categoryId;
+   private Integer categoryId;
 
-    Integer TaxPercentage;
+   private Integer TaxPercentage;
 
-    LocalDate createdDate;
+   private LocalDate createdDate;
 
-    LocalDate updatedDate;
+   private LocalDate updatedDate;
 
 
     public Integer getId() {
