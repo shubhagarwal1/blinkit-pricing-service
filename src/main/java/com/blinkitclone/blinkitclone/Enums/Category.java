@@ -1,6 +1,6 @@
 package com.blinkitclone.blinkitclone.Enums;
 
-public enum ApplicableCategory {
+public enum Category {
     Milk,
     Chips,
     SoftDrinks,

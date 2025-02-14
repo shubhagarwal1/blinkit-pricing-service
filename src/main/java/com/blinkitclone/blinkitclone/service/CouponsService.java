@@ -41,7 +41,7 @@ public class CouponsService {
                 .endDate(couponsRequestDto.getEndDate())
                 .createdById(couponsRequestDto.getCreatedById())
                 .description(couponsRequestDto.getDescription())
-                .discountType(couponsRequestDto.getDiscountType())
+                .discountPercentage(couponsRequestDto.getDiscountPercentage())
                 .maxDiscount(couponsRequestDto.getMaxDiscount())
                 .startDate(couponsRequestDto.getStartDate())
                 .maxUsage(couponsRequestDto.getMaxUsage())
@@ -65,7 +65,7 @@ public class CouponsService {
                 .applyingCondition(coupons.getApplyingCondition())
                 .mov(coupons.getMov())
                 .description(coupons.getDescription())
-                .discountType(coupons.getDiscountType())
+                .discountPercentage(coupons.getDiscountPercentage())
                 .maxDiscount(coupons.getMaxDiscount())
                 .endDate(coupons.getEndDate())
                 .startDate(coupons.getStartDate())
@@ -81,7 +81,7 @@ public class CouponsService {
         if(couponsRequestDto.getMaxUsage() != null) coupons.get().setMaxUsage(couponsRequestDto.getMaxUsage());
         if(couponsRequestDto.getMov() != null) coupons.get().setMov(couponsRequestDto.getMov());
         if(couponsRequestDto.getApplicableCategory() != null) coupons.get().setApplicableCategory(couponsRequestDto.getApplicableCategory());
-        if(couponsRequestDto.getDiscountType() != null) coupons.get().setDiscountType(couponsRequestDto.getDiscountType());
+        if(couponsRequestDto.getDiscountPercentage() != null) coupons.get().setDiscountPercentage(couponsRequestDto.getDiscountPercentage());
         if(couponsRequestDto.getStatus() != null) coupons.get().setStatus(couponsRequestDto.getStatus());
         if(couponsRequestDto.getEndDate() != null) coupons.get().setEndDate(couponsRequestDto.getEndDate());
         if(couponsRequestDto.getApplyingCondition() != null) coupons.get().setApplyingCondition(couponsRequestDto.getApplyingCondition());
@@ -129,4 +129,5 @@ public class CouponsService {
         }
         return couponsResponseDtos;
     }
+
 }

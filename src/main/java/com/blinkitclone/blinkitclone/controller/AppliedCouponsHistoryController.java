@@ -6,6 +6,8 @@ import com.blinkitclone.blinkitclone.dto.requestDto.AppliedCouponsHistoryRequest
 import com.blinkitclone.blinkitclone.dto.responseDto.AppliedCouponsHistoryResponseDto;
 import com.blinkitclone.blinkitclone.service.AppliedCouponsHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,66 +19,42 @@ public class AppliedCouponsHistoryController {
     @Autowired
     private AppliedCouponsHistoryService appliedCouponsHistoryService;
 
-    @PostMapping("/create")
-    public AppliedCouponsHistoryResponseDto createAppliedCouponsHistory(@RequestBody AppliedCouponsHistoryRequestDto appliedCouponsHistoryRequestDto){
-        return appliedCouponsHistoryService.createAppliedCouponsHistory(appliedCouponsHistoryRequestDto);
-    }
 
     @GetMapping("/getById")
-    public AppliedCouponsHistoryResponseDto getAppliedCouponsHistoryById(@RequestParam Integer id){
+    public ResponseEntity<AppliedCouponsHistoryResponseDto> getAppliedCouponsHistoryById(@RequestParam Integer id){
         try {
-            return appliedCouponsHistoryService.getAppliedCouponsHistoryById(id);
+            return new ResponseEntity<>(appliedCouponsHistoryService.getAppliedCouponsHistoryById(id), HttpStatus.OK);
         }
         catch (NotFound | AlreadyDeletedException e){
-            return AppliedCouponsHistoryResponseDto.builder().Error(e.getMessage()).build();
+            return new ResponseEntity<>(AppliedCouponsHistoryResponseDto.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
 
     }
 
     @GetMapping("/getByCouponId")
-    public AppliedCouponsHistoryResponseDto getAppliedCouponsHistoryByCouponId(@RequestParam Integer CouponId){
+    public ResponseEntity<AppliedCouponsHistoryResponseDto> getAppliedCouponsHistoryByCouponId(@RequestParam Integer CouponId){
         try {
-            return appliedCouponsHistoryService.getAppliedCouponsHistoryByCouponId(CouponId);
+            return new ResponseEntity<>(appliedCouponsHistoryService.getAppliedCouponsHistoryByCouponId(CouponId), HttpStatus.OK);
         }
         catch (NotFound | AlreadyDeletedException e){
-            return AppliedCouponsHistoryResponseDto.builder().Error(e.getMessage()).build();
+            return new ResponseEntity<>(AppliedCouponsHistoryResponseDto.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
 
     }
 
     @GetMapping("/getByOrderId")
-    public AppliedCouponsHistoryResponseDto getAppliedCouponsHistorybyOrderId(@RequestParam Integer orderId){
+    public ResponseEntity<AppliedCouponsHistoryResponseDto> getAppliedCouponsHistorybyOrderId(@RequestParam Integer orderId){
         try {
-            return appliedCouponsHistoryService.getAppliedCouponsHistoryByOrderId(orderId);
+            return new ResponseEntity<>(appliedCouponsHistoryService.getAppliedCouponsHistoryByOrderId(orderId), HttpStatus.OK);
         }
         catch (NotFound | AlreadyDeletedException e){
-            return AppliedCouponsHistoryResponseDto.builder().Error(e.getMessage()).build();
+            return new ResponseEntity<>(AppliedCouponsHistoryResponseDto.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/getAll")
-    public List<AppliedCouponsHistoryResponseDto> getAllAppliedCouponsHistory(){
-        return appliedCouponsHistoryService.getAllAppliedCouponsHistory();
+    public ResponseEntity<List<AppliedCouponsHistoryResponseDto>> getAllAppliedCouponsHistory(){
+        return new ResponseEntity<>(appliedCouponsHistoryService.getAllAppliedCouponsHistory(), HttpStatus.OK);
     }
 
-    @PatchMapping("/updateById")
-    public AppliedCouponsHistoryResponseDto updateAppliedCouponsHistoryById(@RequestParam Integer id, @RequestBody AppliedCouponsHistoryRequestDto appliedCouponsHistoryRequestDto){
-        try {
-            return appliedCouponsHistoryService.updateAppliedCouponsHistoryById(id, appliedCouponsHistoryRequestDto);
-        }
-        catch (NotFound | AlreadyDeletedException e){
-            return AppliedCouponsHistoryResponseDto.builder().Error(e.getMessage()).build();
-        }
-    }
-
-    @DeleteMapping("/deleteById")
-    public String deleteAppliedCouponsHistoryById(@RequestParam Integer id){
-
-        try {
-            return appliedCouponsHistoryService.deleteAppliedCouponsHistoryById(id);
-        }
-        catch (NotFound | AlreadyDeletedException e){
-            return e.getMessage();
-        }
-    }
 }

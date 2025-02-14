@@ -7,6 +7,8 @@ import com.blinkitclone.blinkitclone.dto.requestDto.CouponsRequestDto;
 import com.blinkitclone.blinkitclone.dto.responseDto.CouponsResponseDto;
 import com.blinkitclone.blinkitclone.service.CouponsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,56 +20,58 @@ public class CouponsController {
     private CouponsService couponsService;
 
     @PostMapping("/create")
-    public CouponsResponseDto createCouponsService(@RequestBody CouponsRequestDto couponsRequestDto){
-        return couponsService.createCoupons(couponsRequestDto);
+    public ResponseEntity<CouponsResponseDto> createCouponsService(@RequestBody CouponsRequestDto couponsRequestDto){
+        return new ResponseEntity<>(couponsService.createCoupons(couponsRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/getByCouponCode")
-    public CouponsResponseDto getCouponsByCouponCode(@RequestParam String couponCode){
+    public ResponseEntity<CouponsResponseDto> getCouponsByCouponCode(@RequestParam String couponCode){
         try{
-            return couponsService.getCouponsByCouponCode(couponCode);
+            return new ResponseEntity<>(couponsService.getCouponsByCouponCode(couponCode), HttpStatus.FOUND);
         }
         catch (CouponExpiredException | NotFoundException e){
-            return CouponsResponseDto.builder().error(e.getMessage()).build();
+            return new ResponseEntity<>(CouponsResponseDto.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/getById")
-    public CouponsResponseDto getCouponsById(@RequestParam Integer id){
+    public ResponseEntity<CouponsResponseDto> getCouponsById(@RequestParam Integer id){
         try{
-            return couponsService.getCouponsById(id);
+            return new ResponseEntity<>( couponsService.getCouponsById(id), HttpStatus.OK);
         }
         catch (CouponExpiredException | NotFoundException e){
-            return CouponsResponseDto.builder().error(e.getMessage()).build();
+            return new ResponseEntity<>( CouponsResponseDto.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/getAllActiveCoupons")
-    public List<CouponsResponseDto> getAllActiveCoupons(){
-        return couponsService.getAllActiveCoupons();
+    public ResponseEntity<List<CouponsResponseDto>> getAllActiveCoupons(){
+
+        return new ResponseEntity<>(couponsService.getAllActiveCoupons(), HttpStatus.FOUND);
     }
 
     @GetMapping("/getAllCoupons")
 
-    public List<CouponsResponseDto> getAllCoupons(){
-        return couponsService.getAllCoupons();
+    public ResponseEntity<List<CouponsResponseDto>> getAllCoupons(){
+
+        return new ResponseEntity<>( couponsService.getAllCoupons(), HttpStatus.FOUND);
     }
 
     @PatchMapping("/updateById")
-    public CouponsResponseDto updateCouponsById(@RequestParam Integer id, @RequestBody CouponsRequestDto couponsRequestDto){
+    public ResponseEntity<CouponsResponseDto> updateCouponsById(@RequestParam Integer id, @RequestBody CouponsRequestDto couponsRequestDto){
         try{
-            return couponsService.updateCouponsById(id, couponsRequestDto);
+            return new ResponseEntity<>( couponsService.updateCouponsById(id, couponsRequestDto), HttpStatus.OK);
         } catch (NotFoundException e) {
-            return CouponsResponseDto.builder().error(e.getMessage()).build();
+            return new ResponseEntity<>( CouponsResponseDto.builder().error(e.getMessage()).build(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @DeleteMapping("/deleteById")
-    public String deleteCouponsById(@RequestParam Integer id){
+    public ResponseEntity<String> deleteCouponsById(@RequestParam Integer id){
         try{
-            return couponsService.deleteCouponsById(id);
+            return new ResponseEntity<>(couponsService.deleteCouponsById(id), HttpStatus.OK);
         } catch (AlreadyDeletedException | NotFoundException e) {
-            return e.getMessage();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
