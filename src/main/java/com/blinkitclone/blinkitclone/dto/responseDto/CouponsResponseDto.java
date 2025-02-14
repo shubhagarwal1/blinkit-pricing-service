@@ -1,9 +1,6 @@
 package com.blinkitclone.blinkitclone.dto.responseDto;
 
-import com.blinkitclone.blinkitclone.Enums.ApplicableCategory;
-import com.blinkitclone.blinkitclone.Enums.CouponStatus;
-import com.blinkitclone.blinkitclone.Enums.DeletionStatus;
-import com.blinkitclone.blinkitclone.Enums.DiscountType;
+import com.blinkitclone.blinkitclone.Enums.Category;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
@@ -17,14 +14,14 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CouponsResponseDto {
 
-    String error;
-    ApplicableCategory applicableCategory;
-    String couponCode;
-    LocalDate startDate;
-    LocalDate endDate;
-    String applyingCondition;
-    Integer maxDiscount;
-    Integer mov;
-    String description;
-    DiscountType discountType;
+    private String error;
+    private Category applicableCategory;
+    private String couponCode;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String applyingCondition;
+    private Integer maxDiscount;
+    private Integer mov;
+    private String description;
+    private Integer discountPercentage;
 }

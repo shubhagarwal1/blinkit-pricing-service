@@ -54,24 +54,9 @@ public class AppliedCouponsHistoryService {
 
     public AppliedCouponsHistoryResponseDto getAppliedCouponsHistoryById(Integer id) throws NotFound, AlreadyDeletedException {
         Optional<AppliedCouponsHistory> appliedCouponsHistory = appliedCouponsHistoryRepo.findById(id);
-        if(appliedCouponsHistory.isEmpty()) throw new NotFound("Applied coupon history with id : " + id + " does not exist");
+        if(appliedCouponsHistory.isEmpty())
+            throw new NotFound("Applied coupon history with id : " + id + " does not exist");
         if (appliedCouponsHistory.get().getDeletionStatus() == Deleted) throw new AlreadyDeletedException("Applied coupon history with id : " + id + " has been deleted");
-        return convertEntityToAppliedCouponsHistoryResponseDto(appliedCouponsHistory.get());
-    }
-
-    public AppliedCouponsHistoryResponseDto updateAppliedCouponsHistoryById(Integer id, AppliedCouponsHistoryRequestDto appliedCouponsHistoryRequestDto) throws NotFound, AlreadyDeletedException {
-        Optional<AppliedCouponsHistory> appliedCouponsHistory = appliedCouponsHistoryRepo.findById(id);
-        if(appliedCouponsHistory.isEmpty()) throw new NotFound("Applied coupon history with id : " + id + " does not exist");
-        if (appliedCouponsHistory.get().getDeletionStatus() == Deleted) throw new AlreadyDeletedException("Applied coupon history with id : " + id + " has been deleted");
-        ////updating data/////
-        if(appliedCouponsHistoryRequestDto.getAppliedAt() != null) appliedCouponsHistory.get().setAppliedAt(appliedCouponsHistoryRequestDto.getAppliedAt());
-        if(appliedCouponsHistoryRequestDto.getCouponId() != null) appliedCouponsHistory.get().setCouponId(appliedCouponsHistoryRequestDto.getCouponId());
-        if(appliedCouponsHistoryRequestDto.getDiscountAmount() != null) appliedCouponsHistory.get().setDiscountAmount(appliedCouponsHistoryRequestDto.getDiscountAmount());
-        if(appliedCouponsHistoryRequestDto.getUserId() != null) appliedCouponsHistory.get().setUserId(appliedCouponsHistoryRequestDto.getUserId());
-        if(appliedCouponsHistoryRequestDto.getOrderId() != null) appliedCouponsHistory.get().setOrderId(appliedCouponsHistoryRequestDto.getOrderId());
-        if(appliedCouponsHistoryRequestDto.getOrderTotalAfterDiscount() != null) appliedCouponsHistory.get().setOrderTotalAfterDiscount(appliedCouponsHistoryRequestDto.getOrderTotalAfterDiscount());
-
-        appliedCouponsHistoryRepo.save(appliedCouponsHistory.get());
         return convertEntityToAppliedCouponsHistoryResponseDto(appliedCouponsHistory.get());
     }
 

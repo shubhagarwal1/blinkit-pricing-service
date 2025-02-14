@@ -1,9 +1,8 @@
 package com.blinkitclone.blinkitclone.entity;
 
-import com.blinkitclone.blinkitclone.Enums.ApplicableCategory;
+import com.blinkitclone.blinkitclone.Enums.Category;
 import com.blinkitclone.blinkitclone.Enums.CouponStatus;
 import com.blinkitclone.blinkitclone.Enums.DeletionStatus;
-import com.blinkitclone.blinkitclone.Enums.DiscountType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,54 +19,53 @@ public class Coupons extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "applicable_category")
-    ApplicableCategory applicableCategory;
+    private Category applicableCategory;
 
     @Column(name = "max_usage_per_user")
-    Integer maxUsagePerUser;
+    private Integer maxUsagePerUser;
 
     @Column(name = "max_usage")
-    Integer maxUsage;
+    private Integer maxUsage;
 
     @Column(name = "coupon_code")
-    String couponCode;
+    private String couponCode;
 
     @Column(name = "start_date")
-    LocalDate startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    LocalDate endDate;
+    private LocalDate endDate;
 
     @Column(name = "applying_condition")
-    String applyingCondition;
+    private String applyingCondition;
 
     @Column(name = "max_discount")
-    Integer maxDiscount;
+    private Integer maxDiscount;
 
     @Column(name = "mov")
-    Integer mov;
+    private Integer mov;
 
     @Column(name = "description")
-    String description;
+    private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "discount_type")
-    DiscountType discountType;
+    @Column(name = "discount_percentage")
+    private Integer discountPercentage;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    CouponStatus  status;
+    private CouponStatus status;
 
     @Column(name = "redeemed_count")
-    Integer redeemedCount;
+    private Integer redeemedCount;
 
     @Column(name = "created_by_id")
-    Integer createdById;
+    private Integer createdById;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "deletion_status")
-    DeletionStatus deletionStatus;
+    private DeletionStatus deletionStatus;
 }

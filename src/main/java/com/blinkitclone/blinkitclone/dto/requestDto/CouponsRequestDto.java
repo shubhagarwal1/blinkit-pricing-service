@@ -1,8 +1,7 @@
 package com.blinkitclone.blinkitclone.dto.requestDto;
 
-import com.blinkitclone.blinkitclone.Enums.ApplicableCategory;
+import com.blinkitclone.blinkitclone.Enums.Category;
 import com.blinkitclone.blinkitclone.Enums.CouponStatus;
-import com.blinkitclone.blinkitclone.Enums.DiscountType;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -14,18 +13,19 @@ import java.time.LocalDate;
 @Builder
 public class CouponsRequestDto {
 
-    ApplicableCategory applicableCategory;
-    Integer maxUsagePerUser;
-    Integer maxUsage;
-    String couponCode;
-    LocalDate startDate;
-    LocalDate endDate;
-    String applyingCondition;
-    Integer maxDiscount;
-    Integer mov;
-    String description;
-    DiscountType discountType;
-    CouponStatus status;
-    Integer redeemedCount;
-    Integer createdById;
+
+    private Category applicableCategory;
+    private Integer maxUsagePerUser;
+    private Integer maxUsage;
+    private String couponCode;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String applyingCondition;
+    private Integer maxDiscount;
+    private Integer mov;
+    private String description;
+    private Integer discountPercentage;
+    private CouponStatus status;
+    private Integer redeemedCount;
+    private Integer createdById;
 }
