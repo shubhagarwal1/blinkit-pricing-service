@@ -18,27 +18,27 @@ public class AppliedCouponsHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer Id;
+    private Integer id;
 
     @Column(name = "user_id")
-    Integer userId;
+    private Integer userId;
 
     @Column(name = "order_id", nullable = false, unique = true)
-    Long orderId;
+    private Long orderId;
 
     @Column(name = "coupon_id")
-    Integer couponId;
+    private Integer couponId;
 
     @Column(name = "discount_amount")
-    Integer discountAmount;
+    private Integer discountAmount;
 
     @Column(name = "applied_at")
-    LocalDateTime appliedAt;
+    private LocalDateTime appliedAt;
 
     @Column(name = "order_total_after_discount")
-    Integer orderTotalAfterDiscount;
+    private Integer orderTotalAfterDiscount;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "deletion_status")
-    DeletionStatus deletionStatus;
+    private DeletionStatus deletionStatus;
 }

@@ -11,10 +11,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class AppliedCouponsHistoryRequestDto {
-    Integer userId;
-    Long orderId;
-    Integer couponId;
-    Integer discountAmount;
-    LocalDateTime appliedAt;
-    Integer orderTotalAfterDiscount;
+    private Integer userId;
+
+    private Long orderId;
+
+    private Integer couponId;
+
+    private Integer discountAmount;
+
+    private LocalDateTime appliedAt;
+
+    private Integer orderTotalAfterDiscount;
 }

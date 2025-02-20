@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @Builder
 
 public class AppliedCouponsHistoryResponseDto {
-    String Error;
-    Integer userId;
-    Long orderId;
-    Integer couponId;
-    Integer discountAmount;
-    LocalDateTime appliedAt;
-    Integer orderTotalAfterDiscount;
+    private String error;
+    private Integer userId;
+    private Long orderId;
+    private Integer couponId;
+    private Integer discountAmount;
+    private LocalDateTime appliedAt;
+    private Integer orderTotalAfterDiscount;
 }
